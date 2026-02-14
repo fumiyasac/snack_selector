@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: snack-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: snack_db
+      MYSQL_USER: snack_user
+      MYSQL_PASSWORD: snack_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ./snack_selector_backend
+      dockerfile: Dockerfile
+    container_name: snack-backend
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: mysql://snack_user:snack_password@mysql:3306/snack_db
+      PORT: 3000
+    depends_on:
+      mysql:
+        condition: service_healthy
+    volumes:
+      - ./snack_selector_backend:/app
+      - /app/node_modules
+
+volumes:
+  mysql_data:
