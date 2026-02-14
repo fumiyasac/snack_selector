@@ -795,14 +795,21 @@ const snackRecipes = [
 
 async function main() {
   console.log('Start seeding...');
-  
+
   for (const recipe of snackRecipes) {
+    const existing = await prisma.snackRecipe.findFirst({
+      where: { name: recipe.name },
+    });
+    if (existing) {
+      console.log(`Skipped (already exists): ${existing.name}`);
+      continue;
+    }
     const created = await prisma.snackRecipe.create({
       data: recipe,
     });
     console.log(`Created recipe with id: ${created.id} - ${created.name}`);
   }
-  
+
   console.log('Seeding finished.');
 }
 

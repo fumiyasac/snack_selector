@@ -16,10 +16,9 @@ docker compose up -d
 echo "⏳ データベースの起動を待っています..."
 sleep 10
 
-# マイグレーションとシードの実行
-echo "🗄️  データベースのマイグレーションとシードを実行中..."
+# マイグレーションの実行（シードはDockerコンテナ起動時に自動実行されます）
+echo "🗄️  データベースのマイグレーションを実行中..."
 docker compose exec -T backend npx prisma migrate deploy
-docker compose exec -T backend npx prisma db seed
 
 # Flutterのセットアップ
 echo "📱 Flutterアプリのセットアップ中..."

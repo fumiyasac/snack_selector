@@ -27,7 +27,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      DATABASE_URL: mysql://snack_user:snack_password@mysql:3306/snack_db
+      DATABASE_URL: mysql://root:rootpassword@mysql:3306/snack_db
       PORT: 3000
     depends_on:
       mysql:
