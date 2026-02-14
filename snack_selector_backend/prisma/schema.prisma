@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model SnackRecipe {
+  id          Int      @id @default(autoincrement())
+  name        String
+  description String   @db.Text
+  imageUrl    String
+  category    String
+  difficulty  String
+  prepTime    Int      // 準備時間（分）
+  ingredients String   @db.Text // JSON形式で保存
+  steps       String   @db.Text // JSON形式で保存
+  calories    Int?
+  tags        String   @db.Text // カンマ区切りで保存
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category])
+  @@index([difficulty])
+}
+
+model UserSwipe {
+  id        Int      @id @default(autoincrement())
+  recipeId  Int
+  userId    String   // アプリ内でユニークなユーザーID
+  liked     Boolean
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([recipeId])
+}
