@@ -1,5 +1,7 @@
 import { PrismaClient } from '@prisma/client';
 
+// PrismaClientのインスタンスを生成してDB接続を確立する
+// このインスタンスを通じて全てのDB操作（CRUD）を行う
 const prisma = new PrismaClient();
 
 const snackRecipes = [
@@ -10,6 +12,9 @@ const snackRecipes = [
     category: 'クッキー',
     difficulty: '簡単',
     prepTime: 30,
+    // ingredients, stepsはDB上ではJSON文字列として保存される
+    // Prismaスキーマで String 型として定義されているため、配列をJSON.stringifyで文字列化する
+    // API側で返却時にJSON.parseして配列に復元する
     ingredients: JSON.stringify([
       '薄力粉 200g',
       'バター 100g',
@@ -797,6 +802,9 @@ async function main() {
   console.log('Start seeding...');
 
   for (const recipe of snackRecipes) {
+    // 重複登録を防止するため、nameで既存レコードを検索する
+    // findFirstはユニーク制約のないカラムでも検索できるため、nameにユニーク制約がなくても使用可能
+    // 同名レシピが既に存在する場合はスキップし、存在しない場合のみ新規作成する
     const existing = await prisma.snackRecipe.findFirst({
       where: { name: recipe.name },
     });
@@ -813,6 +821,9 @@ async function main() {
   console.log('Seeding finished.');
 }
 
+// main関数を実行し、エラー発生時はプロセスを異常終了させる（exit code: 1）
+// finallyでPrismaのDB接続を確実に切断し、コネクションリークを防止する
+// この切断処理はseed成功・失敗に関わらず必ず実行される
 main()
   .catch((e) => {
     console.error(e);
