@@ -23,7 +23,7 @@ docker-compose exec -T backend npx prisma db seed
 
 # Flutterのセットアップ
 echo "📱 Flutterアプリのセットアップ中..."
-cd mobile
+cd snack_selector_mobile
 flutter pub get
 cd ..
 
