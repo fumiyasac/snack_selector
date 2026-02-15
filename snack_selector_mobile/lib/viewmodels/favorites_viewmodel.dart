@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/snack_recipe.dart';
-import '../repositories/snack_recipe_repository.dart';
 import '../providers/providers.dart';
 
 // ViewModelの状態
@@ -29,21 +28,19 @@ class FavoritesState {
 }
 
 // ViewModel
-class FavoritesViewModel extends StateNotifier<FavoritesState> {
-  final SnackRecipeRepository repository;
-  final String userId;
-
-  FavoritesViewModel({
-    required this.repository,
-    required this.userId,
-  }) : super(FavoritesState()) {
+class FavoritesViewModel extends Notifier<FavoritesState> {
+  @override
+  FavoritesState build() {
     loadFavorites();
+    return FavoritesState();
   }
 
   Future<void> loadFavorites() async {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
+      final repository = ref.read(snackRecipeRepositoryProvider);
+      final userId = ref.read(userIdProvider);
       final favorites = await repository.getFavorites(userId);
       state = state.copyWith(
         favorites: favorites,
@@ -64,8 +61,6 @@ class FavoritesViewModel extends StateNotifier<FavoritesState> {
 
 // Provider
 final favoritesViewModelProvider =
-    StateNotifierProvider<FavoritesViewModel, FavoritesState>((ref) {
-  final repository = ref.watch(snackRecipeRepositoryProvider);
-  final userId = ref.watch(userIdProvider);
-  return FavoritesViewModel(repository: repository, userId: userId);
-});
+    NotifierProvider<FavoritesViewModel, FavoritesState>(
+  FavoritesViewModel.new,
+);

@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/snack_recipe.dart';
 import '../models/pagination.dart';
-import '../repositories/snack_recipe_repository.dart';
 import '../providers/providers.dart';
 
 // ViewModelの状態
@@ -38,11 +37,11 @@ class RecipeListState {
 }
 
 // ViewModel
-class RecipeListViewModel extends StateNotifier<RecipeListState> {
-  final SnackRecipeRepository repository;
-
-  RecipeListViewModel(this.repository) : super(RecipeListState()) {
+class RecipeListViewModel extends Notifier<RecipeListState> {
+  @override
+  RecipeListState build() {
     loadRecipes();
+    return RecipeListState();
   }
 
   Future<void> loadRecipes({
@@ -54,6 +53,7 @@ class RecipeListViewModel extends StateNotifier<RecipeListState> {
     state = state.copyWith(isLoading: true, error: null);
 
     try {
+      final repository = ref.read(snackRecipeRepositoryProvider);
       final response = await repository.getRecipes(
         page: 1,
         limit: 10,
@@ -84,6 +84,7 @@ class RecipeListViewModel extends StateNotifier<RecipeListState> {
     state = state.copyWith(isLoadingMore: true);
 
     try {
+      final repository = ref.read(snackRecipeRepositoryProvider);
       final nextPage = (state.pagination?.page ?? 0) + 1;
       final response = await repository.getRecipes(
         page: nextPage,
@@ -115,7 +116,6 @@ class RecipeListViewModel extends StateNotifier<RecipeListState> {
 
 // Provider
 final recipeListViewModelProvider =
-    StateNotifierProvider<RecipeListViewModel, RecipeListState>((ref) {
-  final repository = ref.watch(snackRecipeRepositoryProvider);
-  return RecipeListViewModel(repository);
-});
+    NotifierProvider<RecipeListViewModel, RecipeListState>(
+  RecipeListViewModel.new,
+);
