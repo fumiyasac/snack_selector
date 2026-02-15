@@ -30,7 +30,8 @@ class FavoritesScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                    const Icon(Icons.error_outline,
+                        size: 64, color: Color(0xFFFFADAD)),
                     const SizedBox(height: 16),
                     Text(
                       'エラーが発生しました',
@@ -52,10 +53,10 @@ class FavoritesScreen extends ConsumerWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(
+                    const Icon(
                       Icons.favorite_border,
                       size: 64,
-                      color: Colors.grey[400],
+                      color: Color(0xFFFF8BA7),
                     ),
                     const SizedBox(height: 16),
                     Text(
@@ -66,7 +67,7 @@ class FavoritesScreen extends ConsumerWidget {
                     Text(
                       'Swipe画面でレシピを選んでみましょう!',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: Colors.grey[600],
+                            color: const Color(0xFF9E8E8E),
                           ),
                     ),
                   ],

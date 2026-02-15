@@ -14,17 +14,17 @@ class SwipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.2),
+            color: const Color(0xFFFF8BA7).withValues(alpha: 0.25),
             blurRadius: 10,
             offset: const Offset(0, 5),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(24),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -51,7 +51,7 @@ class SwipeCard extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    Colors.black.withOpacity(0.7),
+                    const Color(0xFF3D2C2E).withValues(alpha: 0.75),
                   ],
                   stops: const [0.5, 1.0],
                 ),
@@ -108,12 +108,15 @@ class SwipeCard extends StatelessWidget {
                       spacing: 8,
                       runSpacing: 8,
                       children: [
-                        _buildChip(Icons.category, recipe.category),
-                        _buildChip(Icons.timer, '${recipe.prepTime}分'),
-                        _buildChip(Icons.star, recipe.difficulty),
+                        _buildChip(Icons.category, recipe.category,
+                            const Color(0xFFFFB5A7)),
+                        _buildChip(Icons.timer, '${recipe.prepTime}分',
+                            const Color(0xFFFCD5CE)),
+                        _buildChip(Icons.star, recipe.difficulty,
+                            const Color(0xFFCDB4DB)),
                         if (recipe.calories != null)
-                          _buildChip(
-                              Icons.local_fire_department, '${recipe.calories} kcal'),
+                          _buildChip(Icons.local_fire_department,
+                              '${recipe.calories} kcal', const Color(0xFFA2D2FF)),
                       ],
                     ),
                   ],
@@ -126,23 +129,24 @@ class SwipeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(IconData icon, String label) {
+  Widget _buildChip(IconData icon, String label, Color bgColor) {
+    const textColor = Color(0xFF6B4C4C);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.9),
+        color: bgColor.withValues(alpha: 0.92),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: Colors.black87),
+          Icon(icon, size: 16, color: textColor),
           const SizedBox(width: 4),
           Text(
             label,
             style: const TextStyle(
               fontSize: 13,
-              color: Colors.black87,
+              color: textColor,
               fontWeight: FontWeight.w500,
             ),
           ),

@@ -62,23 +62,23 @@ class RecipeDetailScreen extends StatelessWidget {
                       _buildInfoChip(
                         Icons.category,
                         recipe.category,
-                        Colors.blue,
+                        const Color(0xFFFFB5A7),
                       ),
                       _buildInfoChip(
                         Icons.timer,
                         '${recipe.prepTime}分',
-                        Colors.orange,
+                        const Color(0xFFFCD5CE),
                       ),
                       _buildInfoChip(
                         Icons.star,
                         recipe.difficulty,
-                        Colors.green,
+                        const Color(0xFFCDB4DB),
                       ),
                       if (recipe.calories != null)
                         _buildInfoChip(
                           Icons.local_fire_department,
                           '${recipe.calories} kcal',
-                          Colors.red,
+                          const Color(0xFFA2D2FF),
                         ),
                     ],
                   ),
@@ -106,7 +106,7 @@ class RecipeDetailScreen extends StatelessWidget {
                       child: Row(
                         children: [
                           const Icon(Icons.check_circle,
-                              size: 20, color: Colors.green),
+                              size: 20, color: Color(0xFFFF8BA7)),
                           const SizedBox(width: 8),
                           Expanded(
                             child: Text(
@@ -136,8 +136,13 @@ class RecipeDetailScreen extends StatelessWidget {
                               Container(
                                 width: 32,
                                 height: 32,
-                                decoration: BoxDecoration(
-                                  color: Theme.of(context).primaryColor,
+                                decoration: const BoxDecoration(
+                                  gradient: LinearGradient(
+                                    colors: [
+                                      Color(0xFFFF8BA7),
+                                      Color(0xFFFFB5A7),
+                                    ],
+                                  ),
                                   shape: BoxShape.circle,
                                 ),
                                 child: Center(
@@ -182,7 +187,7 @@ class RecipeDetailScreen extends StatelessWidget {
                             (tag) => Chip(
                               label: Text(tag),
                               backgroundColor:
-                                  Theme.of(context).primaryColor.withOpacity(0.1),
+                                  const Color(0xFFFFB5A7).withValues(alpha: 0.3),
                             ),
                           )
                           .toList(),
@@ -199,22 +204,23 @@ class RecipeDetailScreen extends StatelessWidget {
   }
 
   Widget _buildInfoChip(IconData icon, String label, Color color) {
+    final textColor = HSLColor.fromColor(color).withLightness(0.35).toColor();
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.3),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 20, color: color),
+          Icon(icon, size: 20, color: textColor),
           const SizedBox(width: 6),
           Text(
             label,
             style: TextStyle(
               fontSize: 14,
-              color: color,
+              color: textColor,
               fontWeight: FontWeight.w600,
             ),
           ),

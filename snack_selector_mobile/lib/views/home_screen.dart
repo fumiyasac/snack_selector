@@ -33,17 +33,23 @@ class _HomeScreenState extends State<HomeScreen> {
             _currentIndex = index;
           });
         },
+        backgroundColor: Colors.white,
+        selectedItemColor: const Color(0xFFFF8BA7),
+        unselectedItemColor: Colors.grey,
         items: const [
           BottomNavigationBarItem(
-            icon: Icon(Icons.list),
+            icon: Icon(Icons.cookie_outlined),
+            activeIcon: Icon(Icons.cookie),
             label: '一覧',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.swipe),
+            icon: Icon(Icons.swipe_outlined),
+            activeIcon: Icon(Icons.swipe),
             label: 'Swipe',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
+            icon: Icon(Icons.favorite_border),
+            activeIcon: Icon(Icons.favorite),
             label: 'お気に入り',
           ),
         ],

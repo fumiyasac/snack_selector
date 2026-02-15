@@ -27,7 +27,14 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('今日のおやつを選ぼう!'),
+        title: const Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.cookie, color: Color(0xFFFF8BA7)),
+            SizedBox(width: 8),
+            Text('今日のおやつを選ぼう!'),
+          ],
+        ),
         elevation: 0,
         actions: [
           IconButton(
@@ -47,7 +54,8 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.error_outline, size: 64, color: Colors.red),
+                  const Icon(Icons.error_outline,
+                      size: 64, color: Color(0xFFFFADAD)),
                   const SizedBox(height: 16),
                   Text(
                     'エラーが発生しました',
@@ -68,8 +76,8 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Icon(Icons.check_circle_outline,
-                      size: 64, color: Colors.green),
+                  const Icon(Icons.cookie,
+                      size: 64, color: Color(0xFFFF8BA7)),
                   const SizedBox(height: 16),
                   Text(
                     'すべてのレシピをチェックしました!',
@@ -126,22 +134,22 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                     FloatingActionButton(
                       heroTag: 'pass',
                       onPressed: () => _controller.swipe(CardSwiperDirection.left),
-                      backgroundColor: Colors.red,
-                      child: const Icon(Icons.close, size: 32),
+                      backgroundColor: const Color(0xFFFFADAD),
+                      child: const Icon(Icons.close, size: 32, color: Colors.white),
                     ),
                     // 詳細ボタン
                     FloatingActionButton(
                       heroTag: 'info',
                       onPressed: () => _showRecipeDetail(context, state.currentRecipe!),
-                      backgroundColor: Colors.blue,
-                      child: const Icon(Icons.info_outline, size: 28),
+                      backgroundColor: const Color(0xFFA2D2FF),
+                      child: const Icon(Icons.info_outline, size: 28, color: Colors.white),
                     ),
                     // 好きボタン
                     FloatingActionButton(
                       heroTag: 'like',
                       onPressed: () => _controller.swipe(CardSwiperDirection.right),
-                      backgroundColor: Colors.green,
-                      child: const Icon(Icons.favorite, size: 32),
+                      backgroundColor: const Color(0xFFFF8BA7),
+                      child: const Icon(Icons.favorite, size: 32, color: Colors.white),
                     ),
                   ],
                 ),
@@ -178,7 +186,7 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                     width: 40,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: Colors.grey[300],
+                      color: const Color(0xFFFF8BA7).withValues(alpha: 0.5),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
