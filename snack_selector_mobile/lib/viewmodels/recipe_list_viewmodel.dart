@@ -40,22 +40,19 @@ class RecipeListState {
 class RecipeListViewModel extends Notifier<RecipeListState> {
   @override
   RecipeListState build() {
-    loadRecipes();
-    return RecipeListState();
+    _fetchRecipes();
+    return RecipeListState(isLoading: true);
   }
 
-  Future<void> loadRecipes({
+  Future<void> _fetchRecipes({
     String? category,
     String? difficulty,
+    int page = 1,
   }) async {
-    if (state.isLoading) return;
-
-    state = state.copyWith(isLoading: true, error: null);
-
     try {
       final repository = ref.read(snackRecipeRepositoryProvider);
       final response = await repository.getRecipes(
-        page: 1,
+        page: page,
         limit: 10,
         category: category,
         difficulty: difficulty,
@@ -72,6 +69,16 @@ class RecipeListViewModel extends Notifier<RecipeListState> {
         error: e.toString(),
       );
     }
+  }
+
+  Future<void> loadRecipes({
+    String? category,
+    String? difficulty,
+  }) async {
+    if (state.isLoading) return;
+
+    state = state.copyWith(isLoading: true, error: null);
+    await _fetchRecipes(category: category, difficulty: difficulty);
   }
 
   Future<void> loadMore({
@@ -110,7 +117,8 @@ class RecipeListViewModel extends Notifier<RecipeListState> {
     String? category,
     String? difficulty,
   }) async {
-    await loadRecipes(category: category, difficulty: difficulty);
+    state = state.copyWith(isLoading: true, error: null);
+    await _fetchRecipes(category: category, difficulty: difficulty);
   }
 }
 

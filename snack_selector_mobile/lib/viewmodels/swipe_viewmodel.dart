@@ -1,36 +1,46 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/snack_recipe.dart';
+import '../models/pagination.dart';
 import '../providers/providers.dart';
+import 'favorites_viewmodel.dart';
 
 // ViewModelの状態
 class SwipeState {
   final List<SnackRecipe> recipes;
   final int currentIndex;
   final bool isLoading;
+  final bool isLoadingMore;
   final String? error;
   final List<int> likedRecipeIds;
+  final Pagination? pagination;
 
   SwipeState({
     this.recipes = const [],
     this.currentIndex = 0,
     this.isLoading = false,
+    this.isLoadingMore = false,
     this.error,
     this.likedRecipeIds = const [],
+    this.pagination,
   });
 
   SwipeState copyWith({
     List<SnackRecipe>? recipes,
     int? currentIndex,
     bool? isLoading,
+    bool? isLoadingMore,
     String? error,
     List<int>? likedRecipeIds,
+    Pagination? pagination,
   }) {
     return SwipeState(
       recipes: recipes ?? this.recipes,
       currentIndex: currentIndex ?? this.currentIndex,
       isLoading: isLoading ?? this.isLoading,
+      isLoadingMore: isLoadingMore ?? this.isLoadingMore,
       error: error,
       likedRecipeIds: likedRecipeIds ?? this.likedRecipeIds,
+      pagination: pagination ?? this.pagination,
     );
   }
 
@@ -48,18 +58,17 @@ class SwipeState {
 class SwipeViewModel extends Notifier<SwipeState> {
   @override
   SwipeState build() {
-    loadRecipes();
-    return SwipeState();
+    _fetchRecipes();
+    return SwipeState(isLoading: true);
   }
 
-  Future<void> loadRecipes() async {
-    state = state.copyWith(isLoading: true, error: null);
-
+  Future<void> _fetchRecipes() async {
     try {
       final repository = ref.read(snackRecipeRepositoryProvider);
       final response = await repository.getRecipes(limit: 20);
       state = state.copyWith(
         recipes: response.recipes,
+        pagination: response.pagination,
         currentIndex: 0,
         isLoading: false,
       );
@@ -69,6 +78,12 @@ class SwipeViewModel extends Notifier<SwipeState> {
         error: e.toString(),
       );
     }
+  }
+
+  Future<void> loadRecipes() async {
+    if (state.isLoading) return;
+    state = state.copyWith(isLoading: true, error: null);
+    await _fetchRecipes();
   }
 
   Future<void> onSwipeLeft(int recipeId) async {
@@ -98,6 +113,7 @@ class SwipeViewModel extends Notifier<SwipeState> {
       state = state.copyWith(
         likedRecipeIds: [...state.likedRecipeIds, recipeId],
       );
+      ref.invalidate(favoritesViewModelProvider);
       _moveToNext();
     } catch (e) {
       state = state.copyWith(error: e.toString());
@@ -116,19 +132,26 @@ class SwipeViewModel extends Notifier<SwipeState> {
   }
 
   Future<void> _loadMoreRecipes() async {
+    if (state.isLoadingMore) return;
+    if (state.pagination?.hasMore != true) return;
+
+    state = state.copyWith(isLoadingMore: true);
+
     try {
       final repository = ref.read(snackRecipeRepositoryProvider);
-      final currentPage = (state.recipes.length ~/ 10) + 1;
+      final nextPage = (state.pagination?.page ?? 0) + 1;
       final response = await repository.getRecipes(
-        page: currentPage,
+        page: nextPage,
         limit: 10,
       );
 
       state = state.copyWith(
         recipes: [...state.recipes, ...response.recipes],
+        pagination: response.pagination,
+        isLoadingMore: false,
       );
     } catch (e) {
-      // エラーは無視（次回のロードで再試行）
+      state = state.copyWith(isLoadingMore: false);
     }
   }
 

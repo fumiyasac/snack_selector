@@ -93,9 +93,11 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                   padding: const EdgeInsets.all(16.0),
                   child: CardSwiper(
                     controller: _controller,
-                    cardsCount: state.recipes.length - state.currentIndex,
+                    cardsCount: state.recipes.length,
+                    initialIndex: state.currentIndex,
                     onSwipe: (previousIndex, currentIndex, direction) {
-                      final recipe = state.recipes[state.currentIndex + previousIndex];
+                      if (previousIndex >= state.recipes.length) return false;
+                      final recipe = state.recipes[previousIndex];
                       if (direction == CardSwiperDirection.right) {
                         viewModel.onSwipeRight(recipe.id);
                       } else if (direction == CardSwiperDirection.left) {
@@ -105,7 +107,10 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                     },
                     cardBuilder: (context, index, horizontalOffsetPercentage,
                         verticalOffsetPercentage) {
-                      final recipe = state.recipes[state.currentIndex + index];
+                      if (index >= state.recipes.length) {
+                        return const SizedBox.shrink();
+                      }
+                      final recipe = state.recipes[index];
                       return SwipeCard(recipe: recipe);
                     },
                   ),

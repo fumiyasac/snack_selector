@@ -31,13 +31,11 @@ class FavoritesState {
 class FavoritesViewModel extends Notifier<FavoritesState> {
   @override
   FavoritesState build() {
-    loadFavorites();
-    return FavoritesState();
+    _fetchFavorites();
+    return FavoritesState(isLoading: true);
   }
 
-  Future<void> loadFavorites() async {
-    state = state.copyWith(isLoading: true, error: null);
-
+  Future<void> _fetchFavorites() async {
     try {
       final repository = ref.read(snackRecipeRepositoryProvider);
       final userId = ref.read(userIdProvider);
@@ -55,7 +53,8 @@ class FavoritesViewModel extends Notifier<FavoritesState> {
   }
 
   Future<void> refresh() async {
-    await loadFavorites();
+    state = state.copyWith(isLoading: true, error: null);
+    await _fetchFavorites();
   }
 }
 
