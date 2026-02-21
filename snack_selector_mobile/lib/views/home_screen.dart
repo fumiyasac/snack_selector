@@ -34,8 +34,8 @@ class _HomeScreenState extends State<HomeScreen> {
           });
         },
         backgroundColor: Colors.white,
-        selectedItemColor: const Color(0xFFFF8BA7),
-        unselectedItemColor: Colors.grey,
+        selectedItemColor: const Color(0xFF4E342E),
+        unselectedItemColor: const Color(0xFF9E9E9E),
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.cookie_outlined),

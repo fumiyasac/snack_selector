@@ -20,32 +20,33 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color(0xFFFF8BA7),
+          seedColor: const Color(0xFF4E342E),
           brightness: Brightness.light,
         ),
         useMaterial3: true,
-        scaffoldBackgroundColor: const Color(0xFFFFF5F5),
+        scaffoldBackgroundColor: const Color(0xFFFAFAF8),
         appBarTheme: const AppBarTheme(
           centerTitle: true,
         ),
         cardTheme: CardThemeData(
-          elevation: 3,
-          shadowColor: const Color(0xFFFF8BA7).withValues(alpha: 0.3),
+          elevation: 1,
+          shadowColor: Colors.black.withValues(alpha: 0.05),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(4),
           ),
         ),
         bottomNavigationBarTheme: const BottomNavigationBarThemeData(
           backgroundColor: Colors.white,
-          selectedItemColor: Color(0xFFFF8BA7),
-          unselectedItemColor: Colors.grey,
+          selectedItemColor: Color(0xFF4E342E),
+          unselectedItemColor: Color(0xFF9E9E9E),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFFFF8BA7),
+            backgroundColor: const Color(0xFF4E342E),
             foregroundColor: Colors.white,
+            elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(6),
             ),
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           ),

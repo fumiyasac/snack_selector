@@ -14,17 +14,17 @@ class SwipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(8),
         boxShadow: [
           BoxShadow(
-            color: const Color(0xFFFF8BA7).withValues(alpha: 0.25),
-            blurRadius: 10,
-            offset: const Offset(0, 5),
+            color: Colors.black.withValues(alpha: 0.06),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(8),
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -33,13 +33,13 @@ class SwipeCard extends StatelessWidget {
               imageUrl: recipe.imageUrl,
               fit: BoxFit.cover,
               placeholder: (context, url) => Container(
-                color: Colors.grey[300],
+                color: Colors.grey[200],
                 child: const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(strokeWidth: 2),
                 ),
               ),
               errorWidget: (context, url, error) => Container(
-                color: Colors.grey[300],
+                color: Colors.grey[200],
                 child: const Icon(Icons.error, size: 50),
               ),
             ),
@@ -51,9 +51,9 @@ class SwipeCard extends StatelessWidget {
                   end: Alignment.bottomCenter,
                   colors: [
                     Colors.transparent,
-                    const Color(0xFF3D2C2E).withValues(alpha: 0.75),
+                    const Color(0xFF1C1B1F).withValues(alpha: 0.8),
                   ],
-                  stops: const [0.5, 1.0],
+                  stops: const [0.45, 1.0],
                 ),
               ),
             ),
@@ -73,11 +73,12 @@ class SwipeCard extends StatelessWidget {
                       recipe.name,
                       style: const TextStyle(
                         color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.bold,
+                        fontSize: 26,
+                        fontWeight: FontWeight.w600,
+                        letterSpacing: -0.3,
                         shadows: [
                           Shadow(
-                            color: Colors.black,
+                            color: Colors.black54,
                             blurRadius: 4,
                           ),
                         ],
@@ -85,38 +86,30 @@ class SwipeCard extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 6),
                     // 説明
                     Text(
                       recipe.description,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        shadows: [
-                          Shadow(
-                            color: Colors.black,
-                            blurRadius: 4,
-                          ),
-                        ],
+                      style: TextStyle(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        fontSize: 15,
+                        height: 1.4,
                       ),
-                      maxLines: 3,
+                      maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: 14),
                     // メタ情報
                     Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
+                      spacing: 6,
+                      runSpacing: 6,
                       children: [
-                        _buildChip(Icons.category, recipe.category,
-                            const Color(0xFFFFB5A7)),
-                        _buildChip(Icons.timer, '${recipe.prepTime}分',
-                            const Color(0xFFFCD5CE)),
-                        _buildChip(Icons.star, recipe.difficulty,
-                            const Color(0xFFCDB4DB)),
+                        _buildChip(Icons.category, recipe.category),
+                        _buildChip(Icons.timer, '${recipe.prepTime}分'),
+                        _buildChip(Icons.star, recipe.difficulty),
                         if (recipe.calories != null)
-                          _buildChip(Icons.local_fire_department,
-                              '${recipe.calories} kcal', const Color(0xFFA2D2FF)),
+                          _buildChip(
+                              Icons.local_fire_department, '${recipe.calories} kcal'),
                       ],
                     ),
                   ],
@@ -129,24 +122,23 @@ class SwipeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(IconData icon, String label, Color bgColor) {
-    const textColor = Color(0xFF6B4C4C);
+  Widget _buildChip(IconData icon, String label) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
-        color: bgColor.withValues(alpha: 0.92),
-        borderRadius: BorderRadius.circular(16),
+        color: Colors.white.withValues(alpha: 0.92),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: textColor),
+          Icon(icon, size: 14, color: const Color(0xFF4E342E)),
           const SizedBox(width: 4),
           Text(
             label,
             style: const TextStyle(
-              fontSize: 13,
-              color: textColor,
+              fontSize: 12,
+              color: Color(0xFF3E2723),
               fontWeight: FontWeight.w500,
             ),
           ),

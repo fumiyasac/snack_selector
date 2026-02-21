@@ -16,10 +16,10 @@ class RecipeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
-      elevation: 3,
-      shadowColor: const Color(0xFFFF8BA7).withValues(alpha: 0.3),
+      elevation: 1,
+      shadowColor: Colors.black.withValues(alpha: 0.05),
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(4),
       ),
       child: InkWell(
         onTap: onTap,
@@ -33,13 +33,13 @@ class RecipeCard extends StatelessWidget {
                 imageUrl: recipe.imageUrl,
                 fit: BoxFit.cover,
                 placeholder: (context, url) => Container(
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                   child: const Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(strokeWidth: 2),
                   ),
                 ),
                 errorWidget: (context, url, error) => Container(
-                  color: Colors.grey[300],
+                  color: Colors.grey[200],
                   child: const Icon(Icons.error, size: 50),
                 ),
               ),
@@ -54,17 +54,18 @@ class RecipeCard extends StatelessWidget {
                   Text(
                     recipe.name,
                     style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          fontWeight: FontWeight.bold,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF1C1B1F),
                         ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   // 説明
                   Text(
                     recipe.description,
                     style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey[700],
+                          color: const Color(0xFF6D6A6A),
                         ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
@@ -74,24 +75,21 @@ class RecipeCard extends StatelessWidget {
                   Row(
                     children: [
                       _buildChip(
-                        context,
                         Icons.category,
                         recipe.category,
-                        const Color(0xFFFFB5A7),
+                        const Color(0xFFEFEBE9),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _buildChip(
-                        context,
                         Icons.timer,
                         '${recipe.prepTime}分',
-                        const Color(0xFFFCD5CE),
+                        const Color(0xFFECEFF1),
                       ),
-                      const SizedBox(width: 8),
+                      const SizedBox(width: 6),
                       _buildChip(
-                        context,
                         Icons.star,
                         recipe.difficulty,
-                        const Color(0xFFCDB4DB),
+                        const Color(0xFFF3E5F5),
                       ),
                     ],
                   ),
@@ -104,27 +102,22 @@ class RecipeCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChip(
-    BuildContext context,
-    IconData icon,
-    String label,
-    Color color,
-  ) {
-    final textColor = HSLColor.fromColor(color).withLightness(0.35).toColor();
+  Widget _buildChip(IconData icon, String label, Color bgColor) {
+    const textColor = Color(0xFF5D4037);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.3),
-        borderRadius: BorderRadius.circular(12),
+        color: bgColor,
+        borderRadius: BorderRadius.circular(4),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 16, color: textColor),
+          Icon(icon, size: 14, color: textColor),
           const SizedBox(width: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               color: textColor,
               fontWeight: FontWeight.w500,

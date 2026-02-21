@@ -22,7 +22,8 @@ class FavoritesScreen extends ConsumerWidget {
         child: Builder(
           builder: (context) {
             if (state.isLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return const Center(
+                  child: CircularProgressIndicator(strokeWidth: 2));
             }
 
             if (state.error != null) {
@@ -31,11 +32,13 @@ class FavoritesScreen extends ConsumerWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.error_outline,
-                        size: 64, color: Color(0xFFFFADAD)),
+                        size: 48, color: Color(0xFFB71C1C)),
                     const SizedBox(height: 16),
                     Text(
                       'エラーが発生しました',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: const Color(0xFF1C1B1F),
+                          ),
                     ),
                     const SizedBox(height: 16),
                     ElevatedButton(
@@ -55,19 +58,21 @@ class FavoritesScreen extends ConsumerWidget {
                   children: [
                     const Icon(
                       Icons.favorite_border,
-                      size: 64,
-                      color: Color(0xFFFF8BA7),
+                      size: 48,
+                      color: Color(0xFFAD1457),
                     ),
                     const SizedBox(height: 16),
                     Text(
                       'お気に入りがありません',
-                      style: Theme.of(context).textTheme.titleLarge,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                            color: const Color(0xFF1C1B1F),
+                          ),
                     ),
-                    const SizedBox(height: 8),
+                    const SizedBox(height: 6),
                     Text(
                       'Swipe画面でレシピを選んでみましょう!',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: const Color(0xFF9E8E8E),
+                            color: const Color(0xFF6D6A6A),
                           ),
                     ),
                   ],

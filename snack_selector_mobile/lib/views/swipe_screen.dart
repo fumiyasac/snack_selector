@@ -30,7 +30,7 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
         title: const Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(Icons.cookie, color: Color(0xFFFF8BA7)),
+            Icon(Icons.cookie, color: Color(0xFF4E342E)),
             SizedBox(width: 8),
             Text('今日のおやつを選ぼう!'),
           ],
@@ -46,7 +46,8 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
       body: Builder(
         builder: (context) {
           if (state.isLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return const Center(
+                child: CircularProgressIndicator(strokeWidth: 2));
           }
 
           if (state.error != null) {
@@ -55,11 +56,13 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(Icons.error_outline,
-                      size: 64, color: Color(0xFFFFADAD)),
+                      size: 48, color: Color(0xFFB71C1C)),
                   const SizedBox(height: 16),
                   Text(
                     'エラーが発生しました',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: const Color(0xFF1C1B1F),
+                        ),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
@@ -77,11 +80,13 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   const Icon(Icons.cookie,
-                      size: 64, color: Color(0xFFFF8BA7)),
+                      size: 48, color: Color(0xFF4E342E)),
                   const SizedBox(height: 16),
                   Text(
                     'すべてのレシピをチェックしました!',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: const Color(0xFF1C1B1F),
+                        ),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton(
@@ -134,22 +139,25 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                     FloatingActionButton(
                       heroTag: 'pass',
                       onPressed: () => _controller.swipe(CardSwiperDirection.left),
-                      backgroundColor: const Color(0xFFFFADAD),
-                      child: const Icon(Icons.close, size: 32, color: Colors.white),
+                      backgroundColor: const Color(0xFF78909C),
+                      elevation: 1,
+                      child: const Icon(Icons.close, size: 28, color: Colors.white),
                     ),
                     // 詳細ボタン
                     FloatingActionButton(
                       heroTag: 'info',
                       onPressed: () => _showRecipeDetail(context, state.currentRecipe!),
-                      backgroundColor: const Color(0xFFA2D2FF),
-                      child: const Icon(Icons.info_outline, size: 28, color: Colors.white),
+                      backgroundColor: const Color(0xFF546E7A),
+                      elevation: 1,
+                      child: const Icon(Icons.info_outline, size: 24, color: Colors.white),
                     ),
                     // 好きボタン
                     FloatingActionButton(
                       heroTag: 'like',
                       onPressed: () => _controller.swipe(CardSwiperDirection.right),
-                      backgroundColor: const Color(0xFFFF8BA7),
-                      child: const Icon(Icons.favorite, size: 32, color: Colors.white),
+                      backgroundColor: const Color(0xFFAD1457),
+                      elevation: 1,
+                      child: const Icon(Icons.favorite, size: 28, color: Colors.white),
                     ),
                   ],
                 ),
@@ -167,7 +175,7 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
       ),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: 0.7,
@@ -183,10 +191,10 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
               children: [
                 Center(
                   child: Container(
-                    width: 40,
+                    width: 36,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFFFF8BA7).withValues(alpha: 0.5),
+                      color: const Color(0xFFBDBDBD),
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -195,14 +203,16 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                 Text(
                   recipe.name,
                   style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF1C1B1F),
                       ),
                 ),
                 const SizedBox(height: 16),
                 Text(
                   '材料',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF1C1B1F),
                       ),
                 ),
                 const SizedBox(height: 8),
@@ -216,7 +226,8 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                 Text(
                   '作り方',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        color: const Color(0xFF1C1B1F),
                       ),
                 ),
                 const SizedBox(height: 8),
@@ -228,7 +239,10 @@ class _SwipeScreenState extends ConsumerState<SwipeScreen> {
                           children: [
                             Text(
                               '${entry.key + 1}. ',
-                              style: const TextStyle(fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                                color: Color(0xFF4E342E),
+                              ),
                             ),
                             Expanded(child: Text(entry.value)),
                           ],

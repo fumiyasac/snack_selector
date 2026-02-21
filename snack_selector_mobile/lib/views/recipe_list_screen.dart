@@ -58,7 +58,7 @@ class _RecipeListScreenState extends ConsumerState<RecipeListScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Icon(Icons.error_outline,
-                        size: 64, color: Color(0xFFFFADAD)),
+                        size: 48, color: Color(0xFFB71C1C)),
                     const SizedBox(height: 16),
                     Text(
                       'エラーが発生しました',
