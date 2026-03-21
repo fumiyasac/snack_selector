@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:http/http.dart' as http;
 import '../models/snack_recipe.dart';
 import '../models/recipes_response.dart';
@@ -7,8 +8,8 @@ class SnackRecipeRepository {
   final String baseUrl;
 
   SnackRecipeRepository({
-    this.baseUrl = 'http://localhost:3000/api',
-  });
+    String? baseUrl,
+  }) : baseUrl = baseUrl ?? (Platform.isAndroid ? 'http://10.0.2.2:3000/api' : 'http://localhost:3000/api');
 
   Future<RecipesResponse> getRecipes({
     int page = 1,
